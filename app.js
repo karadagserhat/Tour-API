@@ -13,7 +13,10 @@ const globalErrorHandler = require('./controllers/errorController');
 const tourRouter = require('./routes/tourRoutes');
 const userRouter = require('./routes/userRoutes');
 
+// Start express app
 const app = express();
+
+app.enable('trust proxy');
 
 // 1) GLOBAL MIDDLEWARES
 // Serving static files
