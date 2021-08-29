@@ -7,6 +7,7 @@ const mongoSanitize = require('express-mongo-sanitize');
 const xss = require('xss-clean');
 const hpp = require('hpp');
 const compression = require('compression');
+const cors = require('cors');
 
 const AppError = require('./utils/appError');
 const globalErrorHandler = require('./controllers/errorController');
@@ -19,6 +20,17 @@ const app = express();
 app.enable('trust proxy');
 
 // 1) GLOBAL MIDDLEWARES
+// Implement CORS
+// Access-Control-Allow-Origin *
+app.use(cors());
+// app.use(cors({
+//  origin: 'http://localhost:1234',
+//   })
+// );
+
+app.options('*', cors());
+app.options('/api/v1/tours/:id', cors());
+
 // Serving static files
 // app.use(express.static(`${__dirname}/public`));
 app.use(express.static(path.join(__dirname, 'public')));
