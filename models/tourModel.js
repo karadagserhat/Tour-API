@@ -13,20 +13,6 @@ const tourSchema = mongoose.Schema(
       maxlength: [40, 'A tour name must have less or equal then 40 characters!'],
     },
     slug: String,
-    ratingsAverage: {
-      type: Number,
-      default: 4.5,
-      min: [1, 'Rating must be above 1.0'],
-      max: [5, 'Rating must be above 1.0'],
-    },
-    ratingsQuantity: {
-      type: Number,
-      default: 0,
-    },
-    price: {
-      type: Number,
-      required: [true, 'A tour must have a price'],
-    },
     summary: {
       type: String,
       trim: true,
@@ -51,6 +37,19 @@ const tourSchema = mongoose.Schema(
       default: false,
       select: false,
     },
+    locations: [
+      {
+        type: {
+          type: String,
+          default: 'Point',
+          enum: ['Point'],
+        },
+        coordinates: [Number],
+        tourName: String,
+        address: String,
+        tourDescription: String,
+      },
+    ],
   },
   {
     toJSON: { virtuals: true },
@@ -58,6 +57,9 @@ const tourSchema = mongoose.Schema(
     id: false,
   }
 );
+
+tourSchema.index({ slug: 1 });
+tourSchema.index({ locations: '2dsphere' });
 
 // tourSchema.virtual('priceHalf').get(function () {
 //   return this.price / 2;
@@ -95,10 +97,10 @@ tourSchema.post(/^find/, function (docs, next) {
 });
 
 // AGGREGATION MIDDLEWARE
-tourSchema.pre('aggregate', function (next) {
-  this.pipeline().unshift({ $match: { secretTour: { $ne: true } } });
-  next();
-});
+// tourSchema.pre('aggregate', function (next) {
+//   this.pipeline().unshift({ $match: { secretTour: { $ne: true } } });
+//   next();
+// });
 
 const Tour = mongoose.model('Tour', tourSchema);
 

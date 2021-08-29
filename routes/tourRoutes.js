@@ -4,26 +4,23 @@ const authController = require('../controllers/authController');
 
 const router = express.Router();
 
-// router.param('id', tourController.checkID);
-
-router
-  .route('/top-5-cheap')
-  .get(tourController.aliasTopTours, tourController.getAllTours);
-
-// prettier-ignore
-router
-  .route('/tour-stats')
-  .get(tourController.getTourStats);
-
 router
   .route('/')
-  .get(authController.protect, tourController.getAllTours)
-  .post(tourController.createTour);
+  .get(tourController.getAllTours)
+  .post(
+    authController.protect,
+    authController.restrictTo('admin'),
+    tourController.createTour
+  );
 
 router
   .route('/:id')
   .get(tourController.getTour)
-  .patch(tourController.updateTour)
+  .patch(
+    authController.protect,
+    authController.restrictTo('admin'),
+    tourController.updateTour
+  )
   .delete(
     authController.protect,
     authController.restrictTo('admin'),
