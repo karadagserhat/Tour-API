@@ -9,24 +9,11 @@ const tourSchema = mongoose.Schema(
       required: [true, 'A tour must have a name'],
       unique: true,
       trim: true,
+      lowercase: true,
       // prettier-ignore
       maxlength: [40, 'A tour name must have less or equal then 40 characters!'],
     },
     slug: String,
-    summary: {
-      type: String,
-      trim: true,
-      required: [true, 'A tour must have a description'],
-    },
-    description: {
-      type: String,
-      trim: true,
-    },
-    imageCover: {
-      type: String,
-      required: [true, 'A tour must have a image'],
-    },
-    images: [String],
     createdAt: {
       type: Date,
       default: Date.now(),
@@ -48,6 +35,7 @@ const tourSchema = mongoose.Schema(
         tourName: String,
         address: String,
         tourDescription: String,
+        images: [String],
       },
     ],
   },
