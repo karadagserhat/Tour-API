@@ -13,6 +13,7 @@ const tourSchema = mongoose.Schema(
       // prettier-ignore
       maxlength: [40, 'A tour name must have less or equal then 40 characters!'],
     },
+    cityPlate: Number,
     slug: String,
     createdAt: {
       type: Date,
@@ -24,6 +25,7 @@ const tourSchema = mongoose.Schema(
       default: false,
       select: false,
     },
+    images: [String],
     locations: [
       {
         type: {
@@ -35,7 +37,6 @@ const tourSchema = mongoose.Schema(
         tourName: String,
         address: String,
         tourDescription: String,
-        images: [String],
       },
     ],
   },
