@@ -44,9 +44,9 @@ exports.resizeTourImages = catchAsync(async (req, res, next) => {
 
   await Promise.all(
     req.files.images.map(async (file, i) => {
-      const filename = `tour-${req.params.id}-${req.tour.cityPlate}-${
-        i + 1
-      }.jpeg`;
+      const filename = `tour-${req.tour.locations[i]._id}-${
+        req.tour.cityPlate
+      }-${i + 1}.jpeg`;
 
       await sharp(file.buffer)
         .resize(2000, 1333)
